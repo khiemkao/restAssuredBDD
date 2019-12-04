@@ -3,6 +3,7 @@ package utils;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
@@ -29,8 +30,15 @@ public class BaseAPI extends BaseVars {
                 return null;
         }
     }
-    public RequestSpecification prepareHeader(String method, String  path) {
-        httpMethod = method;
+
+    /**
+     * PrepareRequest
+     * @param requestMethod
+     * @param path
+     * @return
+     */
+    public RequestSpecification prepareRequest(String requestMethod, String  path) {
+        httpMethod = requestMethod;
         pathURL = path;
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setBaseUri(baseURL);
@@ -38,18 +46,57 @@ public class BaseAPI extends BaseVars {
         return RestAssured.given().spec(builder.build());
     }
 
+    /**
+     * ExecuteWithQueryParams
+     * @param queryParams
+     * @return
+     */
     public ResponseOptions<Response> executeWithQueryParams(Map<String, String> queryParams) {
         request.queryParams(queryParams);
         return executeAPI();
     }
 
+    /**
+     * ExecuteWithPathParams
+     * @param pathParams
+     * @return
+     */
     public ResponseOptions<Response> executeWithPathParams(Map<String, String> pathParams) {
         request.pathParams(pathParams);
         return executeAPI();
     }
 
-    public ResponseOptions<Response> executeWithPathParams(String pathParam) {
-//        request.pathParam(pathParam, );
+    /**
+     * ExecuteWithBody
+     * @param body
+     * @return
+     */
+    public ResponseOptions<Response> executeWithBody(Map<String, String> body) {
+        request.body(body);
+        return executeAPI();
+    }
+
+    /**
+     * ExecuteWithQueryParamsAndBody
+     * @param queryParams
+     * @param body
+     * @return
+     */
+    public ResponseOptions<Response> executeWithQueryParamsAndBody(Map<String, String> queryParams, Map<String, String> body) {
+        request.queryParams(queryParams);
+        request.body(body);
+        return executeAPI();
+    }
+
+    /**
+     * ExecuteWithPathParamsAndBody
+     * @param pathParams
+     * @param body
+     * @return
+     */
+    public ResponseOptions<Response> executeWithPathParamsAndBody(Map<String, String> pathParams, Map<String, String> body) {
+        request.pathParams(pathParams);
+        request.body(body);
         return executeAPI();
     }
 }
