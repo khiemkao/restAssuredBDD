@@ -3,7 +3,6 @@ package utils;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
@@ -17,17 +16,25 @@ public class BaseAPI extends BaseVars {
     }
 
     private ResponseOptions<Response> executeAPI() {
-        switch (httpMethod.toUpperCase()) {
-            case "GET":
-                return request.get(pathURL);
-            case "POST":
-                return request.post(pathURL);
-            case "DELETE":
-                return request.delete(pathURL);
-            case "PUT":
-                return request.put(pathURL);
-            default:
-                return null;
+        try {
+            //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
+
+            switch (httpMethod.toUpperCase()) {
+                case "GET":
+                    return request.get(pathURL);
+                case "POST":
+                    return request.post(pathURL);
+                case "DELETE":
+                    return request.delete(pathURL);
+                case "PUT":
+                    return request.put(pathURL);
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            //write log.error
+            e.getMessage();
+            return null;
         }
     }
 

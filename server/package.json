@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "mock Json server",
+  "main": "index.js",
+  "scripts": {
+    "generateDB": "node generate.js > db.json",
+    "start:server": "node server.js"
+  },
+  "author": "kai kao",
+  "license": "ISC",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "json-server": "^0.15.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

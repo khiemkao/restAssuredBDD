@@ -30,7 +30,6 @@ public class localDemo_steps {
 
     @Then("^I should see the \"(.*)\" status code$")
     public void iShouldSeeTheStatusCode(int code) {
-        BaseVars.response.getBody().print();
         assertThat(BaseVars.response.getStatusCode(), is(code));
     }
 }
