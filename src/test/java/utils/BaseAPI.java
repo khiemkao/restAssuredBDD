@@ -9,12 +9,29 @@ import io.restassured.specification.RequestSpecification;
 
 import java.util.Map;
 
-
 public class BaseAPI extends BaseVars {
 
     public BaseAPI() {
     }
 
+    /**
+     * PrepareRequest
+     * @param requestMethod
+     * @param path
+     */
+    public RequestSpecification setRequest(String requestMethod, String  path) {
+        httpMethod = requestMethod;
+        pathURL = path;
+        RequestSpecBuilder builder = new RequestSpecBuilder();
+        builder.setBaseUri(baseURL);
+        builder.setContentType(ContentType.JSON);
+        return RestAssured.given().spec(builder.build());
+    }
+
+    /**
+     * Send the request to server basing on the httpMethod and pathURL
+     * @return
+     */
     private ResponseOptions<Response> executeAPI() {
         try {
             //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
@@ -36,21 +53,6 @@ public class BaseAPI extends BaseVars {
             e.getMessage();
             return null;
         }
-    }
-
-    /**
-     * PrepareRequest
-     * @param requestMethod
-     * @param path
-     * @return
-     */
-    public RequestSpecification prepareRequest(String requestMethod, String  path) {
-        httpMethod = requestMethod;
-        pathURL = path;
-        RequestSpecBuilder builder = new RequestSpecBuilder();
-        builder.setBaseUri(baseURL);
-        builder.setContentType(ContentType.JSON);
-        return RestAssured.given().spec(builder.build());
     }
 
     /**
@@ -78,7 +80,7 @@ public class BaseAPI extends BaseVars {
      * @param body
      * @return
      */
-    public ResponseOptions<Response> executeWithBody(Map<String, String> body) {
+    public ResponseOptions<Response> executeWithBody(Object body) {
         request.body(body);
         return executeAPI();
     }
@@ -89,7 +91,7 @@ public class BaseAPI extends BaseVars {
      * @param body
      * @return
      */
-    public ResponseOptions<Response> executeWithQueryParamsAndBody(Map<String, String> queryParams, Map<String, String> body) {
+    public ResponseOptions<Response> executeWithQueryParamsAndBody(Map<String, String> queryParams, Object body) {
         request.queryParams(queryParams);
         request.body(body);
         return executeAPI();
@@ -101,7 +103,7 @@ public class BaseAPI extends BaseVars {
      * @param body
      * @return
      */
-    public ResponseOptions<Response> executeWithPathParamsAndBody(Map<String, String> pathParams, Map<String, String> body) {
+    public ResponseOptions<Response> executeWithPathParamsAndBody(Map<String, String> pathParams, Object body) {
         request.pathParams(pathParams);
         request.body(body);
         return executeAPI();
