@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "generateDB": "node generate.js > db.json",
-    "start:server": "node server.js"
+    "server:start": "node server.js"
   },
   "author": "kai kao",
   "license": "ISC",

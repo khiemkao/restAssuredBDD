@@ -1,0 +1,26 @@
+{
+  "validUser": {
+    "email": "bruno@email.com",
+    "password": "bruno"
+  },
+  "blankUser": {
+    "email": "",
+    "password": ""
+  },
+  "blankEmailUser": {
+    "email": "",
+    "password": "bruno"
+  },
+  "blankPasswordUser": {
+    "email": "bruno@email.com",
+    "password": ""
+  },
+  "invalidPasswordUser": {
+    "email": "bruno@email.com",
+    "password": "invalidPassword"
+  },
+  "notExistUser": {
+    "email": "bruno-mark@email.com",
+    "password": "Password"
+  }
+}
