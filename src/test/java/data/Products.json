@@ -1,0 +1,14 @@
+{
+  "validProduct": {
+    "id":88,
+    "name":"Maroon",
+    "cost":831872,
+    "quantity":652
+  },
+  "onlyID": {
+    "id":88
+  },
+  "onlyName": {
+    "name":"Maroon"
+  }
+}

@@ -6,12 +6,16 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
+import plain_Old_Java_Objects.Authentication_JO;
 
 import java.util.Map;
 
-public class BaseAPI extends BaseVars {
+public class BaseAPI {
+
+    private RequestSpecBuilder builder;
 
     public BaseAPI() {
+        this.builder = BaseVars.builder;
     }
 
     /**
@@ -19,13 +23,30 @@ public class BaseAPI extends BaseVars {
      * @param requestMethod
      * @param path
      */
-    public RequestSpecification setRequest(String requestMethod, String  path) {
-        httpMethod = requestMethod;
-        pathURL = path;
-        RequestSpecBuilder builder = new RequestSpecBuilder();
-        builder.setBaseUri(baseURL);
+    public RequestSpecBuilder setRequest(String requestMethod, String path) {
+        // set Base URL basing on BaseVars file
+        builder.setBaseUri(BaseVars.baseURL);
+        // set path URL basing on the request
+        BaseVars.pathURL = path;
+        // set API method basing on the request type
+        BaseVars.httpMethod = requestMethod;
+        // set the Content Type - assume this is JSON
         builder.setContentType(ContentType.JSON);
-        return RestAssured.given().spec(builder.build());
+        return builder;
+    }
+
+    /**
+     * Set OAuthentication
+     * @param specBuilder
+     * @param authUser
+     */
+    public void setOAuthentication(RequestSpecBuilder specBuilder, Authentication_JO authUser) {
+        String token = RestAssured.given()
+                .baseUri(BaseVars.baseURL).contentType(ContentType.JSON)
+                .body(authUser)
+                .when().post("/auth/login").getBody().jsonPath().get("access_token");
+        if (token != null)
+            specBuilder.addHeader("Authorization", "Bearer " + token);
     }
 
     /**
@@ -36,15 +57,18 @@ public class BaseAPI extends BaseVars {
         try {
             //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
 
-            switch (httpMethod.toUpperCase()) {
+            //init request
+            RequestSpecification request = RestAssured.given().spec(builder.build());
+            // perform Call basing on the method
+            switch (BaseVars.httpMethod.toUpperCase()) {
                 case "GET":
-                    return request.get(pathURL);
+                    return request.get(BaseVars.pathURL);
                 case "POST":
-                    return request.post(pathURL);
+                    return request.post(BaseVars.pathURL);
                 case "DELETE":
-                    return request.delete(pathURL);
+                    return request.delete(BaseVars.pathURL);
                 case "PUT":
-                    return request.put(pathURL);
+                    return request.put(BaseVars.pathURL);
                 default:
                     return null;
             }
@@ -61,7 +85,7 @@ public class BaseAPI extends BaseVars {
      * @return
      */
     public ResponseOptions<Response> executeWithQueryParams(Map<String, String> queryParams) {
-        request.queryParams(queryParams);
+        builder.addQueryParams(queryParams);
         return executeAPI();
     }
 
@@ -71,7 +95,7 @@ public class BaseAPI extends BaseVars {
      * @return
      */
     public ResponseOptions<Response> executeWithPathParams(Map<String, String> pathParams) {
-        request.pathParams(pathParams);
+        builder.addPathParams(pathParams);
         return executeAPI();
     }
 
@@ -81,7 +105,7 @@ public class BaseAPI extends BaseVars {
      * @return
      */
     public ResponseOptions<Response> executeWithBody(Object body) {
-        request.body(body);
+        builder.setBody(body);
         return executeAPI();
     }
 
@@ -92,8 +116,8 @@ public class BaseAPI extends BaseVars {
      * @return
      */
     public ResponseOptions<Response> executeWithQueryParamsAndBody(Map<String, String> queryParams, Object body) {
-        request.queryParams(queryParams);
-        request.body(body);
+        builder.addQueryParams(queryParams);
+        builder.setBody(body);
         return executeAPI();
     }
 
@@ -104,8 +128,8 @@ public class BaseAPI extends BaseVars {
      * @return
      */
     public ResponseOptions<Response> executeWithPathParamsAndBody(Map<String, String> pathParams, Object body) {
-        request.pathParams(pathParams);
-        request.body(body);
+        builder.addPathParams(pathParams);
+        builder.setBody(body);
         return executeAPI();
     }
 }

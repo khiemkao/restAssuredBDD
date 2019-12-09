@@ -6,7 +6,7 @@ import cucumber.api.java.en.When;
 import plain_Old_Java_Objects.Authentication_JO;
 import utils.BaseAPI;
 import utils.BaseVars;
-import utils.JsonReader;
+import utils.Helps;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -14,16 +14,23 @@ import static org.hamcrest.Matchers.*;
 public class Authentication_steps {
     private BaseAPI baseAPI = new BaseAPI();
     private Authentication_JO authenJO;
-    private String testUserFile = "./src/test/java/data/Authentication.json";
+    private BaseVars baseVars = new BaseVars();
+    private Helps helps = new Helps();
 
     @Given("^I prepare the \"(.*)\" request with path \"(.*)\"$")
     public void iPrepareThePostRequestWithPath(String method, String path) {
-        BaseVars.request = baseAPI.setRequest(method, path);
+        BaseVars.builder = baseAPI.setRequest(method, path);
     }
 
-    @When("^I perform the login call with \"(.*)\"$")
-    public void iPerformTheLoginCallWithUser(String testUser) {
-        authenJO = new Authentication_JO(JsonReader.getJsonObjectFromFile(testUserFile, testUser));
+    @Given("^I set up the OAuthentication token with \"(.*)\"$")
+    public void iSetUpTheOAuthenticationToken(String testUser) {
+        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testUserFile, testUser));
+        baseAPI.setOAuthentication(BaseVars.builder, authenJO);
+    }
+
+    @When("^I perform the authentication call with body as \"(.*)\"$")
+    public void iPerformTheAuthenticationCallWithBody(String testUser) {
+        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testUserFile, testUser));
         BaseVars.response = baseAPI.executeWithBody(authenJO);
     }
 
