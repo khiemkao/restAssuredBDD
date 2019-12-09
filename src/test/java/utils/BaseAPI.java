@@ -1,6 +1,7 @@
 package utils;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.PreemptiveOAuth2HeaderScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -23,14 +24,16 @@ public class BaseAPI {
      * @param requestMethod
      * @param path
      */
-    public RequestSpecBuilder setRequest(String requestMethod, String path) {
+    public RequestSpecBuilder setRequestPathMethod(String requestMethod, String path) {
+        // init specBuilder
+        builder = new RequestSpecBuilder();
         // set Base URL basing on BaseVars file
         builder.setBaseUri(BaseVars.baseURL);
         // set path URL basing on the request
         BaseVars.pathURL = path;
         // set API method basing on the request type
         BaseVars.httpMethod = requestMethod;
-        // set the Content Type - assume this is JSON
+        // set Content Type as JSON
         builder.setContentType(ContentType.JSON);
         return builder;
     }
@@ -40,13 +43,16 @@ public class BaseAPI {
      * @param specBuilder
      * @param authUser
      */
-    public void setOAuthentication(RequestSpecBuilder specBuilder, Authentication_JO authUser) {
+    public void setOAuth2Header(RequestSpecBuilder specBuilder, Authentication_JO authUser) {
         String token = RestAssured.given()
                 .baseUri(BaseVars.baseURL).contentType(ContentType.JSON)
                 .body(authUser)
                 .when().post("/auth/login").getBody().jsonPath().get("access_token");
-        if (token != null)
-            specBuilder.addHeader("Authorization", "Bearer " + token);
+        if (token != null) {
+            PreemptiveOAuth2HeaderScheme scheme = new PreemptiveOAuth2HeaderScheme();
+            scheme.setAccessToken(token);
+            specBuilder.setAuth(scheme);
+        }
     }
 
     /**

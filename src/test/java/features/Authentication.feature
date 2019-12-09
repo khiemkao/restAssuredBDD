@@ -1,4 +1,5 @@
-Feature: Authentication - path "/auth/login"
+@Authentication
+Feature: Authentication - POST - "/auth/login"
 
   Background:
     Given I prepare the "POST" request with path "/auth/login"

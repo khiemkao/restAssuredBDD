@@ -13,24 +13,26 @@ import static org.hamcrest.Matchers.*;
 
 public class Authentication_steps {
     private BaseAPI baseAPI = new BaseAPI();
-    private Authentication_JO authenJO;
     private BaseVars baseVars = new BaseVars();
     private Helps helps = new Helps();
 
+    private Authentication_JO authenJO;
+
+
     @Given("^I prepare the \"(.*)\" request with path \"(.*)\"$")
     public void iPrepareThePostRequestWithPath(String method, String path) {
-        BaseVars.builder = baseAPI.setRequest(method, path);
+        BaseVars.builder = baseAPI.setRequestPathMethod(method, path);
     }
 
-    @Given("^I set up the OAuthentication token with \"(.*)\"$")
+    @Given("^I set up the OAuth2 token with \"(.*)\"$")
     public void iSetUpTheOAuthenticationToken(String testUser) {
-        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testUserFile, testUser));
-        baseAPI.setOAuthentication(BaseVars.builder, authenJO);
+        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testData_Users, testUser));
+        baseAPI.setOAuth2Header(BaseVars.builder, authenJO);
     }
 
     @When("^I perform the authentication call with body as \"(.*)\"$")
     public void iPerformTheAuthenticationCallWithBody(String testUser) {
-        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testUserFile, testUser));
+        authenJO = new Authentication_JO(helps.getJsonObjectFromFile(baseVars.testData_Users, testUser));
         BaseVars.response = baseAPI.executeWithBody(authenJO);
     }
 
