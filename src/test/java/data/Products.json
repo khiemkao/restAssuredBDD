@@ -5,10 +5,11 @@
     "cost":831872,
     "quantity":652
   },
-  "onlyID": {
+  "productWithId": {
     "id":88
   },
-  "onlyName": {
+  "productWithIdName": {
+    "id":88,
     "name":"Maroon"
   }
 }
