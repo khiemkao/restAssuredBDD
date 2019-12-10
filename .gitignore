@@ -24,6 +24,7 @@ hs_err_pid*
 
 #### ignore folder
 target/
+logs/
 server/node_modules/
 
 #### ignore all .idea files ...

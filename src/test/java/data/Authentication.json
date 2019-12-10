@@ -22,5 +22,14 @@
   "notExistUser": {
     "email": "bruno-mark@email.com",
     "password": "Password"
+  },
+  "lackingAll": {
+
+  },
+  "lackingPassword": {
+    "email": "bruno@email.com"
+  },
+  "lackingEmail": {
+    "password": "bruno"
   }
 }

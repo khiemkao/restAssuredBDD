@@ -3,8 +3,11 @@ package utils;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BaseVars {
+    public static Logger logger = LogManager.getLogger();
     public static RequestSpecBuilder builder;
     public static ResponseOptions<Response> response;
     public static String baseURL = "http://localhost:3000";
