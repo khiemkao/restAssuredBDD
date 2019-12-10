@@ -1,5 +1,6 @@
 package plain_Old_Java_Objects;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.gson.Gson;
@@ -22,11 +23,13 @@ public class Authentication_JO {
     }
 
     @JsonProperty("email")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getEmail() {
         return email;
     }
 
     @JsonProperty("password")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getPassword() {
         return password;
     }

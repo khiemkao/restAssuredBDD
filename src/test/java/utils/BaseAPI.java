@@ -6,7 +6,11 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
+import io.restassured.specification.QueryableRequestSpecification;
+import io.restassured.specification.RequestLogSpecification;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
+import org.apache.logging.log4j.Logger;
 import plain_Old_Java_Objects.Authentication_JO;
 
 import java.util.Map;
@@ -14,9 +18,12 @@ import java.util.Map;
 public class BaseAPI {
 
     private RequestSpecBuilder builder;
+    private RequestSpecification request;
+    private Logger logger;
 
     public BaseAPI() {
         this.builder = BaseVars.builder;
+        this.logger = BaseVars.logger;
     }
 
     /**
@@ -61,10 +68,9 @@ public class BaseAPI {
      */
     private ResponseOptions<Response> executeAPI() {
         try {
-            //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
-
             //init request
-            RequestSpecification request = RestAssured.given().spec(builder.build());
+            request = RestAssured.given().spec(builder.build());
+
             // perform Call basing on the method
             switch (BaseVars.httpMethod.toUpperCase()) {
                 case "GET":
@@ -79,9 +85,12 @@ public class BaseAPI {
                     return null;
             }
         } catch (Exception e) {
-            //write log.error
-            e.getMessage();
+            logger.error(e.getMessage());
             return null;
+        } finally {
+            //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
+            QueryableRequestSpecification logQuery = SpecificationQuerier.query(request);
+            logger.debug(logQuery.getMethod() + " | " + logQuery.getURI() + " | " + logQuery.getBody());
         }
     }
 

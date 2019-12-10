@@ -3,6 +3,7 @@ package utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +12,12 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class Helps {
+    private Logger logger;
+
+    public Helps() {
+        this.logger = BaseVars.logger;
+    }
+
 
     public JsonObject getJsonObjectFromFile(String srcFile, String property) {
         try {
@@ -18,8 +25,7 @@ public class Helps {
             File jsonFile = Paths.get(srcFile).toFile();
             return gson.fromJson(new FileReader(jsonFile), JsonObject.class).getAsJsonObject(property);
         }catch (IOException e) {
-            //Write log
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -29,8 +35,7 @@ public class Helps {
             ObjectMapper mapper = new ObjectMapper();
             return (Map<String, String>) mapper.convertValue(object, Map.class);
         } catch (Exception e) {
-            //Write log
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }

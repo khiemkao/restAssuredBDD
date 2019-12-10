@@ -8,13 +8,16 @@ Feature: Authentication - POST - "/auth/login"
     When I perform the authentication call with body as "<testUser>"
     Then I should see the "<statusCode>" status code
     Examples:
-    | testUser            | statusCode |
-    | validUser           | 200        |
-    | blankUser           | 401        |
-    | blankEmailUser      | 401        |
-    | blankPasswordUser   | 401        |
-    | invalidPasswordUser | 401        |
-    | notExistUser        | 401        |
+      | testUser            | statusCode |
+      | validUser           | 200        |
+      | blankUser           | 401        |
+      | blankEmailUser      | 401        |
+      | blankPasswordUser   | 401        |
+      | invalidPasswordUser | 401        |
+      | notExistUser        | 401        |
+      | lackingAll          | 401        |
+      | lackingPassword     | 401        |
+      | lackingEmail        | 401        |
 
   Scenario: Validate returning the access token when success
     When I perform the authentication call with body as "validUser"
@@ -30,3 +33,6 @@ Feature: Authentication - POST - "/auth/login"
       | blankPasswordUser   |
       | invalidPasswordUser |
       | notExistUser        |
+      | lackingAll          |
+      | lackingPassword     |
+      | lackingEmail        |
