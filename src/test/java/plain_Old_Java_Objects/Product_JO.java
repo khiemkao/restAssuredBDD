@@ -65,20 +65,4 @@ public class Product_JO {
     public int getQuantity() {
         return quantity;
     }
-
-    public boolean isMatched(Product_JO po) {
-        if (this.id != po.id) {
-            return false;
-        }
-        if (!this.name.equalsIgnoreCase(po.name)) {
-            return false;
-        }
-        if (this.cost != po.cost) {
-            return false;
-        }
-        if (this.quantity != po.quantity) {
-            return false;
-        }
-        return true;
-    }
 }

@@ -30,6 +30,7 @@
         <junit.version>4.12</junit.version>
         <cucumber-junit.version>1.2.6</cucumber-junit.version>
         <log4j.version>2.11.0</log4j.version>
+        <javaObjectDiff.version>0.95</javaObjectDiff.version>
     </properties>
 
     <dependencies>
@@ -88,11 +89,12 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+
+        <!-- https://mvnrepository.com/artifact/de.danielbechler/java-object-diff -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>de.danielbechler</groupId>
+            <artifactId>java-object-diff</artifactId>
+            <version>${javaObjectDiff.version}</version>
         </dependency>
 
     </dependencies>

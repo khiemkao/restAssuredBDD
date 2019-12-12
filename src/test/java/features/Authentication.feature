@@ -1,10 +1,10 @@
 @Authentication
-Feature: Authentication - POST - "/auth/login"
+Feature: Authentication - "/auth/login"
 
   Background:
     Given I prepare the "POST" request with path "/auth/login"
 
-  Scenario Outline: Validate returning the <statusCode> status code when calling with <testUser>
+  Scenario Outline: Validate returning the <statusCode> status code when calling API with <testUser>
     When I perform the authentication call with body as "<testUser>"
     Then I should see the "<statusCode>" status code
     Examples:
