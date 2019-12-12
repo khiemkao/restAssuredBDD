@@ -1,0 +1,45 @@
+{
+  "validStore": {
+    "id": 3,
+    "name": "Coop Smart",
+    "address": {
+      "street": "Ly Thuong Kiet",
+      "ward": "phuong 12",
+      "district": "Quan 11"
+    }
+  },
+  "newStore": {
+    "name": "New Store",
+    "address": {
+      "street": "Tran Hung Dao",
+      "ward": "phuong 1",
+      "district": "Quan 1"
+    }
+  },
+  "duplicatedStore": {
+    "id": 3,
+    "name": "Coop Smart",
+    "address": {
+      "street": "Ly Thuong Kiet",
+      "ward": "phuong 12",
+      "district": "Quan 11"
+    }
+  },
+  "queryById": {
+    "id": 3
+  },
+  "queryByName": {
+    "name": "Coop Smart"
+  },
+  "queryByIdName": {
+    "id": 3,
+    "name": "Coop Smart"
+  },
+  "queryByAddress": {
+    "address": {
+      "street": "Ly Thuong Kiet",
+      "ward": "phuong 12",
+      "district": "Quan 11"
+    }
+  }
+}

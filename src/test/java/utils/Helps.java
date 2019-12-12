@@ -3,6 +3,8 @@ package utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import de.danielbechler.diff.ObjectDifferBuilder;
+import de.danielbechler.diff.node.DiffNode;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
@@ -38,5 +40,17 @@ public class Helps {
             logger.error(e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Compare 2 objects.
+     * return true when matching
+     * @param objectA
+     * @param objectB
+     * @return
+     */
+    public boolean compareObjects(Object objectA, Object objectB) {
+        DiffNode diffNode = ObjectDifferBuilder.buildDefault().compare(objectA, objectB);
+        return !diffNode.hasChanges();
     }
 }

@@ -16,20 +16,19 @@ public class Products_steps {
     private BaseAPI baseAPI = new BaseAPI();
     private Product_JO productJO;
     private BaseVars baseVars = new BaseVars();
-
     private Helps helps = new Helps();
 
 
-    @When("^I perform the productions call with query params as \"(.*)\"$")
+    @When("^I perform the products call with query params as \"(.*)\"$")
     public void iPerformTheProductionsCallWithQueryParams(String testData) {
         productJO = new Product_JO(helps.getJsonObjectFromFile(baseVars.testData_Products, testData));
         BaseVars.response = baseAPI.executeWithQueryParams(helps.convertObjectToMap(productJO));
     }
 
-    @Then("I should see the detail information of \"(.*)\"")
+    @Then("I should see the product information of \"(.*)\"")
     public void iShouldSeeTheDetailInformation(String testData) {
         productJO = new Product_JO(helps.getJsonObjectFromFile(baseVars.testData_Products, testData));
         List<Product_JO> actual = BaseVars.response.getBody().jsonPath().getList("", Product_JO.class);
-        assertThat(actual.get(0).isMatched(productJO), Matchers.is(true));
+        assertThat(helps.compareObjects(actual.stream().findFirst().get(), productJO), Matchers.is(true));
     }
 }

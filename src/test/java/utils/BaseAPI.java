@@ -7,7 +7,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.QueryableRequestSpecification;
-import io.restassured.specification.RequestLogSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 import org.apache.logging.log4j.Logger;
@@ -70,27 +69,31 @@ public class BaseAPI {
         try {
             //init request
             request = RestAssured.given().spec(builder.build());
-
+            ResponseOptions<Response> response;
             // perform Call basing on the method
             switch (BaseVars.httpMethod.toUpperCase()) {
                 case "GET":
-                    return request.get(BaseVars.pathURL);
+                    response = request.get(BaseVars.pathURL);
+                    break;
                 case "POST":
-                    return request.post(BaseVars.pathURL);
+                    response = request.post(BaseVars.pathURL);
+                    break;
                 case "DELETE":
-                    return request.delete(BaseVars.pathURL);
+                    response = request.delete(BaseVars.pathURL);
+                    break;
                 case "PUT":
-                    return request.put(BaseVars.pathURL);
+                    response = request.put(BaseVars.pathURL);
+                    break;
                 default:
+                    logger.debug("API method is unidentified! It must be GET/POST/PUT/DELETE");
                     return null;
             }
+            QueryableRequestSpecification logQuery = SpecificationQuerier.query(request);
+            logger.debug(logQuery.getMethod() + " | " + logQuery.getURI() + " | " + logQuery.getBody());
+            return response;
         } catch (Exception e) {
             logger.error(e.getMessage());
             return null;
-        } finally {
-            //write log.debug with message "${httpMethod} ${requestURI} ${parameters}"
-            QueryableRequestSpecification logQuery = SpecificationQuerier.query(request);
-            logger.debug(logQuery.getMethod() + " | " + logQuery.getURI() + " | " + logQuery.getBody());
         }
     }
 
