@@ -16,4 +16,5 @@ public class BaseVars {
     public String testData_Users = "./src/test/java/data/Authentication.json";
     public String testData_Products = "./src/test/java/data/Products.json";
     public String testData_Stores = "./src/test/java/data/Stores.json";
+    public String testData_Data = "./src/test/java/data/Data.json";
 }
