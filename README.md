@@ -17,10 +17,10 @@ I use Hamcrest for asserting the result.
 2. Reporting is excluded from this sample project. I'm using the default report from cucumber. You can find the report following the path restAssuredBDD\target\site\cucumber-pretty. Open file Index.html using Chrome for viewing.
 
 #Structure
- data ---> used for storing the test data (input data, expectation).
- features ---> used for storing the .feature files.
- hooks --> used for storing the hook files (before / after)
- plain_Old_Java_Objects ---> used for storing the Objects.
- step_definitions ---> used for storing the step definitions
- utils ---> used for storing the core files and supporting files.
- test runner files
+ * data ---> used for storing the test data (input data, expectation).
+ * features ---> used for storing the .feature files.
+ * hooks --> used for storing the hook files (before / after)
+ * plain_Old_Java_Objects ---> used for storing the Objects.
+ * step_definitions ---> used for storing the step definitions
+ * utils ---> used for storing the core files and supporting files.
+ * test runner files
