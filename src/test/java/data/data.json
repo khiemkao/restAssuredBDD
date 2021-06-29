@@ -1,0 +1,27 @@
+{
+  "validData": {
+    "data": {
+      "month": "2009/10"
+    },
+    "language": "vi",
+    "user": {
+      "userId": 326,
+      "accountTypeId": 1,
+      "accountId": 80000088,
+      "levelType": "CLIENT",
+      "subAccountId": "80000088"
+    }
+  },
+  "queryUser": {
+    "user": {
+      "userId": 326,
+      "accountTypeId": 1,
+      "accountId": 80000088,
+      "levelType": "CLIENT",
+      "subAccountId": "80000088"
+    }
+  },
+  "queryLanguage": {
+    "language": "vi"
+  }
+}
